@@ -27,48 +27,47 @@ multimodule(root)/
 
 ### module-root
 - settings.gradle.kts
-```kotlin
-rootProject.name = "multimodule"
-
-include("module-api")
-include("module-common")
-```
-- root의 build.gradle.kts
-- root 아래에 사용될 모듈을 include 한다.
+    ```kotlin
+    rootProject.name = "multimodule"
+    
+    include("module-api")
+    include("module-common")
+    ```
+    - root 아래에 사용될 모듈을 include 한다.
 
 - build.gradle.kts
-``` kotlin
-plugins {}
-
-allprojects {
-    repositories {
-        mavenCentral()
+    ``` kotlin
+    plugins {}
+    
+    allprojects {
+        repositories {
+            mavenCentral()
+        }
     }
-}
-```
-- root의 gradle 설정은 완전히 비워둔다.
-- root는 단순히 프로젝트 entry(그룹) 역할만 하기 때문이다.
+    ```
+  - root의 gradle 설정은 완전히 비워둔다.<br>
+  - root는 단순히 프로젝트 entry(그룹) 역할만 하기 때문이다.
 
 ### module-api 
 - build.gradle.kts
-```kotlin
-dependencies {
-    implementation(project(":module-common"))
-}
-```
-- 디펜던시에 common 모듈을 사용하기 위한 코드를 추가한다.
+    ```kotlin
+    dependencies {
+        implementation(project(":module-common"))
+    }
+    ```
+  - 디펜던시에 common 모듈을 사용하기 위한 코드를 추가한다.
 
 - Application 클래스
-```java
-@SpringBootApplication(scanBasePackages = "dev.be")
-public class ApiApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(ApiApplication.class, args);
+    ```java
+    @SpringBootApplication(scanBasePackages = "dev.be")
+    public class ApiApplication {
+        public static void main(String[] args) {
+            SpringApplication.run(ApiApplication.class, args);
+        }
     }
-}
-```
-- common에 등록된 component도 사용하기 때문에 스캔 범위를 입력해야한다.
-- 어플리케이션의 실행 위치를 변경해도 된다.
+    ```
+  - common에 등록된 component도 사용하기 때문에 스캔 범위를 입력해야한다.
+  - 어플리케이션의 실행 위치를 변경해도 된다.
 
 ### module-common (라이브러리 모듈)
 - 특징
@@ -78,24 +77,24 @@ public class ApiApplication {
   - 단순 library (api 모듈의 dependency)
 
 - build.gradle.kts
-```kotlin
-plugins {
-    ...
-    id("java-library")
-}
-
-dependencies {
-    api("org.springframework.boot:spring-boot-starter-data-jpa")
-}
-
-tasks.bootJar { enabled = false }
-tasks.jar { enabled = true }
-```
-- implementation(...): 내부에서만 사용(외부 모듈에 노출 X)
-- api(...): 외부 모듈도 이 의존성을 함께 사용하도록 노출
-- api()를 선언하면 Common 모듈에서 JPA / DTO / Exception 등을 내보낼 수 있다.(외부에서 사용할 수 있다.)
-- api() 사용을 위해 플러그인에 id("java-library") 추가도 필요하다.
-- xxx-plain.jar만 필요하기 때문에 tasks 설정을 추가한다.
+    ```kotlin
+    plugins {
+        ...
+        id("java-library")
+    }
+    
+    dependencies {
+        api("org.springframework.boot:spring-boot-starter-data-jpa")
+    }
+    
+    tasks.bootJar { enabled = false }
+    tasks.jar { enabled = true }
+    ```
+  - implementation(...): 내부에서만 사용(외부 모듈에 노출 X)
+  - api(...): 외부 모듈도 이 의존성을 함께 사용하도록 노출
+  - api()를 선언하면 Common 모듈에서 JPA / DTO / Exception 등을 내보낼 수 있다.(외부에서 사용할 수 있다.)
+  - api() 사용을 위해 플러그인에 id("java-library") 추가도 필요하다.
+  - xxx-plain.jar만 필요하기 때문에 tasks 설정을 추가한다.
 
 ## 4. Profile 설정 
 - 환경별 파일 생성
