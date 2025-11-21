@@ -1,0 +1,20 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3310/module_local?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: module_local_user
+    password: local123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update # or `create`
+    properties:
+      hibernate:
+        show_sql: true # to System OutDataSourceConfiguration
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          time_zone: Asia/Seoul # @CreatedDate 필드의 Time Zone 값 설정

@@ -1,0 +1,15 @@
+services:
+  db:
+    container_name: mysql_local_module
+    image: mysql:8.0.30
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3310:3306"
+    environment:
+      - MYSQL_DATABASE=module_local
+      - MYSQL_USER=module_local_user
+      - MYSQL_PASSWORD=local123
+      - MYSQL_ROOT_PASSWORD=local123
+      - TZ=Asia/Seoul
