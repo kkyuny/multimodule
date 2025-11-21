@@ -15,13 +15,13 @@ Spring Boot 기반 서비스에서 **API 모듈(실행)** 과
 - 패키지/책임 분리로 유지보수 쉬움
 
 ### 구조 예시
+```
 multimodule(root)/
 ├── settings.gradle.kts
 ├── build.gradle.kts (root 최소 설정)
 ├── module-api/ (Spring Boot 실행)
 └── module-common/ (라이브러리, Boot 아님)
-
----
+```
 
 ## 3. 프로젝트 생성
 
